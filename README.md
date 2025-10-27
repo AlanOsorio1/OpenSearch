@@ -57,7 +57,6 @@ EOF
 Este archivo define los servicios de Docker que se ejecutarán: el motor de OpenSearch y la interfaz de Dashboards.
 ```bash
 yaml
-Copiar código
 services:
   opensearch:
     image: opensearchproject/opensearch:2
