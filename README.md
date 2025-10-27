@@ -34,29 +34,28 @@ Verificar instalación:
 ```bash
 docker --version
 docker compose version
-``
+```
 
-🔹 Paso 2. Crear carpeta del proyecto
-Creamos una carpeta para contener los archivos del laboratorio:
+### 🔹 Paso 2. Crear carpeta del proyecto
+Creamos una carpeta para contener los archivos:
 
-bash
-Copiar código
+```bash
 mkdir -p /home/alan_osorio/Documentos/BLEND/opensearch_lab
 cd /home/alan_osorio/Documentos/BLEND/opensearch_lab
-🔹 Paso 3. Crear archivo .env
+```
+
+### 🔹 Paso 3. Crear archivo .env
 El archivo .env se utiliza para almacenar variables de entorno sensibles, como la contraseña del usuario administrador.
 
-bash
-Copiar código
+```bash
 cat > .env << 'EOF'
-OPENSEARCH_INITIAL_ADMIN_PASSWORD=Lobo.1014#
+OPENSEARCH_INITIAL_ADMIN_PASSWORD=******
 EOF
-⚠️ Este archivo no debe subirse a GitHub ya que contiene credenciales.
-Se usa dentro del docker-compose.yml con la sintaxis ${OPENSEARCH_INITIAL_ADMIN_PASSWORD}.
+```
 
-🔹 Paso 4. Crear archivo docker-compose.yml
+### 🔹 Paso 4. Crear archivo docker-compose.yml
 Este archivo define los servicios de Docker que se ejecutarán: el motor de OpenSearch y la interfaz de Dashboards.
-
+```bash
 yaml
 Copiar código
 services:
@@ -90,66 +89,52 @@ services:
       - "5601:5601"
     depends_on:
       - opensearch
-📘 Explicación detallada del código docker-compose.yml
+```
+
+📘 Explicación del código docker-compose.yml
 🔹 Servicio opensearch
-image: especifica la imagen oficial de OpenSearch versión 2.x.
+- image: especifica la imagen oficial de OpenSearch versión 2.x.
+- container_name: nombre identificador del contenedor.
+- environment:
+  - cluster.name → define el nombre del clúster.
+  - node.name → nombre del nodo único.
+  - discovery.type=single-node → indica que se ejecutará en modo de un solo nodo.
+  - bootstrap.memory_lock=true → bloquea la memoria para evitar que el sistema use swap.
+  - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g" → asigna 1 GB de memoria a la JVM.
+  - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${...} → toma la contraseña desde el archivo .env.
 
-container_name: nombre identificador del contenedor.
+- ulimits.memlock: evita limitaciones de memoria.
+- ports:
+    - 9200 → puerto principal de la API REST de OpenSearch.
+    - 9600 → puerto para métricas internas.
 
-environment:
+🔹 Servicio "opensearch-dashboards"
+- image: imagen oficial de la interfaz gráfica (similar a Kibana).
+- environment:
+  - OPENSEARCH_HOSTS → URL del servicio principal.
+  - OPENSEARCH_USERNAME / OPENSEARCH_PASSWORD → credenciales para conectarse.
+  - SERVER_HOST=0.0.0.0 → expone el servicio en todas las interfaces.
 
-cluster.name → define el nombre del clúster.
+- ports:
+  - 5601 → puerto del panel web de Dashboards.
 
-node.name → nombre del nodo único.
+- depends_on: garantiza que el contenedor opensearch se inicie primero.
 
-discovery.type=single-node → indica que se ejecutará en modo de un solo nodo.
-
-bootstrap.memory_lock=true → bloquea la memoria para evitar que el sistema use swap.
-
-"OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g" → asigna 1 GB de memoria a la JVM.
-
-OPENSEARCH_INITIAL_ADMIN_PASSWORD=${...} → toma la contraseña desde el archivo .env.
-
-ulimits.memlock: evita limitaciones de memoria.
-
-ports:
-
-9200 → puerto principal de la API REST de OpenSearch.
-
-9600 → puerto para métricas internas.
-
-🔹 Servicio opensearch-dashboards
-image: imagen oficial de la interfaz gráfica (similar a Kibana).
-
-environment:
-
-OPENSEARCH_HOSTS → URL del servicio principal.
-
-OPENSEARCH_USERNAME / OPENSEARCH_PASSWORD → credenciales para conectarse.
-
-SERVER_HOST=0.0.0.0 → expone el servicio en todas las interfaces.
-
-ports:
-
-5601 → puerto del panel web de Dashboards.
-
-depends_on: garantiza que el contenedor opensearch se inicie primero.
-
-🔹 Paso 5. Levantar los contenedores
-bash
-Copiar código
+### 🔹 Paso 5. Levantar los contenedores
+```bash
 docker compose pull
 docker compose up -d
 docker compose ps
+```
 Verificar que OpenSearch está corriendo:
 
-bash
-Copiar código
+```bash
 curl -sk -u admin:Lobo.1014# https://localhost:9200 | jq .
+```
 Acceder al panel de control:
+```bash
 👉 http://localhost:5601
-Usuario: admin
-Contraseña: Lobo.1014#
+```
 
 📊 2️⃣ Ingesta de datos de ejemplo (Dataset Quickstart)
 Dentro de OpenSearch Dashboards:
