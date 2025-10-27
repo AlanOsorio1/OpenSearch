@@ -49,7 +49,7 @@ El archivo .env se utiliza para almacenar variables de entorno sensibles, como l
 
 ```bash
 cat > .env << 'EOF'
-OPENSEARCH_INITIAL_ADMIN_PASSWORD=******
+OPENSEARCH_INITIAL_ADMIN_PASSWORD=PASSWORD
 EOF
 ```
 
@@ -89,36 +89,6 @@ services:
     depends_on:
       - opensearch
 ```
-
-📘 Explicación del código docker-compose.yml
-🔹 Servicio opensearch
-- image: especifica la imagen oficial de OpenSearch versión 2.x.
-- container_name: nombre identificador del contenedor.
-- environment:
-  - cluster.name → define el nombre del clúster.
-  - node.name → nombre del nodo único.
-  - discovery.type=single-node → indica que se ejecutará en modo de un solo nodo.
-  - bootstrap.memory_lock=true → bloquea la memoria para evitar que el sistema use swap.
-  - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g" → asigna 1 GB de memoria a la JVM.
-  - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${...} → toma la contraseña desde el archivo .env.
-
-- ulimits.memlock: evita limitaciones de memoria.
-- ports:
-    - 9200 → puerto principal de la API REST de OpenSearch.
-    - 9600 → puerto para métricas internas.
-
-🔹 Servicio "opensearch-dashboards"
-- image: imagen oficial de la interfaz gráfica (similar a Kibana).
-- environment:
-  - OPENSEARCH_HOSTS → URL del servicio principal.
-  - OPENSEARCH_USERNAME / OPENSEARCH_PASSWORD → credenciales para conectarse.
-  - SERVER_HOST=0.0.0.0 → expone el servicio en todas las interfaces.
-
-- ports:
-  - 5601 → puerto del panel web de Dashboards.
-
-- depends_on: garantiza que el contenedor opensearch se inicie primero.
-
 ### 🔹 Paso 5. Levantar los contenedores
 ```bash
 docker compose pull
@@ -128,9 +98,89 @@ docker compose ps
 Verificar que OpenSearch está corriendo:
 
 ```bash
-curl -sk -u admin:Lobo.1014# https://localhost:9200 | jq .
+curl -sk -u admin:PASSWORD# https://localhost:9200 | jq .
 ```
 Acceder al panel de control:
 ```bash
 👉 http://localhost:5601
 ```
+### 🔹 Paso 6. Creación del dataset personalizado
+🔹 Descripción general
+
+Se construyó un nuevo conjunto de datos llamado eventos_ventas, que simula registros de una empresa de tecnología con operaciones en varias ciudades de Colombia.
+Cada documento representa un evento o transacción con atributos como:
+
+- Fecha (@timestamp)
+- Categoría (categoria)
+- Producto (producto)
+- Ciudad (lugar)
+- Canal de venta (canal)
+- Monto (monto)
+- Detalle (detalle)
+
+Este dataset permite visualizar comportamientos de ventas, devoluciones y servicios de soporte a lo largo del tiempo.
+
+1️⃣ Crear el índice con estructura (mapping):
+
+```bash
+curl -sk -u admin:'PASSWORD' \
+  -H "Content-Type: application/json" \
+  -X PUT "https://localhost:9200/eventos_ventas" \
+  -d '{
+    "settings": { "number_of_shards": 1 },
+    "mappings": {
+      "properties": {
+        "@timestamp": { "type": "date" },
+        "categoria":  { "type": "keyword" },
+        "producto":   { "type": "keyword" },
+        "lugar":      { "type": "keyword" },
+        "canal":      { "type": "keyword" },
+        "monto":      { "type": "float" },
+        "detalle":    { "type": "text" }
+      }
+    }
+  }'
+```
+
+Esto define la estructura del índice, indicando los tipos de datos y campos que se podrán consultar o filtrar.
+
+2️⃣ Cargar datos simulados con Bulk (NDJSON)
+
+Se creó un archivo eventos_ventas.ndjson con 30 registros simulados de diferentes tipos de evento (ventas, devoluciones, soporte, actualizaciones, etc.).
+
+Ejemplo de las primeras líneas:
+```bash
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-01T09:15:00Z","categoria":"venta","producto":"Laptop","lugar":"Bogotá","canal":"Online","monto":850.5,"detalle":"Compra de laptop gama media" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-02T14:00:00Z","categoria":"devolucion","producto":"Celular","lugar":"Cartagena","canal":"Tienda","monto":-620.0,"detalle":"Reembolso por garantía" }
+```
+
+Carga masiva en OpenSearch:
+```bash
+curl -sk -u admin:'PASSWORD' \
+  -H "Content-Type: application/json" \
+  -X POST "https://localhost:9200/_bulk" \
+  --data-binary @eventos_ventas.ndjson
+```
+
+Verificar cantidad de documentos:
+```bash
+curl -sk -u admin:'PASSWORD' "https://localhost:9200/eventos_ventas/_count"
+```
+3️⃣ Crear Data View en OpenSearch Dashboards
+
+
+### 🔹 Paso 6. Creación de visualizaciones y dashboard
+
+Visualizaciones creadas:
+
+- Barras	Transacciones por categoría	X: categoria, Y: Count
+- Pastel	Distribución por producto	Campo: producto
+- Línea	Evolución del monto total en el tiempo	X: @timestamp, Y: Sum(monto)
+- Métrica	Total de ingresos acumulado	Sum(monto)
+
+🎛️ Configuración de búsqueda facetada (Faceted Search)
+Objetivo:
+Permitir filtrar dinámicamente las visualizaciones combinando distintas categorías de datos, sin necesidad de modificar consultas manualmente.
+
