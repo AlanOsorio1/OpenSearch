@@ -1,0 +1,48 @@
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-01T09:15:00Z","categoria":"venta","producto":"Laptop","lugar":"Bogotá","canal":"Online","monto":850.5,"detalle":"Compra de laptop gama media" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-01T10:00:00Z","categoria":"venta","producto":"Celular","lugar":"Medellín","canal":"Tienda","monto":620.0,"detalle":"Venta directa en sucursal centro" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-01T11:45:00Z","categoria":"soporte","producto":"Software","lugar":"Cali","canal":"Online","monto":0,"detalle":"Solicitud de soporte técnico remoto" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-02T08:30:00Z","categoria":"venta","producto":"Monitor","lugar":"Bogotá","canal":"Distribuidor","monto":410.3,"detalle":"Pedido corporativo de monitores" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-02T14:00:00Z","categoria":"devolucion","producto":"Celular","lugar":"Cartagena","canal":"Tienda","monto":-620.0,"detalle":"Reembolso por garantía" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-03T09:00:00Z","categoria":"venta","producto":"Accesorio","lugar":"Bucaramanga","canal":"Online","monto":45.9,"detalle":"Venta de mouse inalámbrico" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-03T11:30:00Z","categoria":"actualizacion","producto":"Software","lugar":"Medellín","canal":"Online","monto":120.0,"detalle":"Actualización de licencia anual" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-04T10:15:00Z","categoria":"venta","producto":"Laptop","lugar":"Cali","canal":"Tienda","monto":940.0,"detalle":"Venta de laptop premium" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-04T12:40:00Z","categoria":"venta","producto":"Accesorio","lugar":"Bogotá","canal":"Online","monto":55.2,"detalle":"Audífonos inalámbricos" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-05T13:30:00Z","categoria":"venta","producto":"Monitor","lugar":"Barranquilla","canal":"Distribuidor","monto":399.9,"detalle":"Entrega a empresa local" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-05T16:10:00Z","categoria":"soporte","producto":"Celular","lugar":"Bogotá","canal":"Online","monto":0,"detalle":"Cambio de batería en garantía" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-06T08:20:00Z","categoria":"venta","producto":"Software","lugar":"Cali","canal":"Online","monto":249.0,"detalle":"Suscripción anual de antivirus" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-06T11:55:00Z","categoria":"venta","producto":"Celular","lugar":"Medellín","canal":"Distribuidor","monto":680.0,"detalle":"Venta por lote de celulares" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-07T09:00:00Z","categoria":"devolucion","producto":"Accesorio","lugar":"Bogotá","canal":"Online","monto":-45.9,"detalle":"Devolución de mouse defectuoso" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-07T10:20:00Z","categoria":"venta","producto":"Laptop","lugar":"Barranquilla","canal":"Tienda","monto":830.0,"detalle":"Venta a cliente frecuente" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-07T12:10:00Z","categoria":"soporte","producto":"Monitor","lugar":"Cali","canal":"Online","monto":0,"detalle":"Ajuste de configuración remota" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-08T08:45:00Z","categoria":"venta","producto":"Celular","lugar":"Bogotá","canal":"Online","monto":599.0,"detalle":"Compra online con promoción" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-08T09:15:00Z","categoria":"actualizacion","producto":"Software","lugar":"Bucaramanga","canal":"Online","monto":110.0,"detalle":"Renovación de licencia" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-08T14:10:00Z","categoria":"venta","producto":"Accesorio","lugar":"Cali","canal":"Distribuidor","monto":60.0,"detalle":"Kit de teclado + mouse" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-09T10:00:00Z","categoria":"venta","producto":"Monitor","lugar":"Bogotá","canal":"Online","monto":430.0,"detalle":"Compra de monitor gamer" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-09T15:30:00Z","categoria":"soporte","producto":"Laptop","lugar":"Medellín","canal":"Tienda","monto":0,"detalle":"Cambio de teclado en garantía" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-10T11:00:00Z","categoria":"venta","producto":"Celular","lugar":"Cali","canal":"Online","monto":700.0,"detalle":"Venta de modelo nuevo" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-10T13:45:00Z","categoria":"devolucion","producto":"Laptop","lugar":"Bogotá","canal":"Tienda","monto":-850.5,"detalle":"Laptop con falla de pantalla" }
+{ "index" : { "_index" : "eventos_ventas" } }
+{ "@timestamp":"2025-10-10T15:15:00Z","categoria":"actualizacion","producto":"Software","lugar":"Barranquilla","canal":"Online","monto":130.0,"detalle":"Actualización de plan premium" }
