@@ -7,23 +7,6 @@ El objetivo de este ejercicio fue **instalar OpenSearch localmente con Docker Co
 
 ---
 
-## 🎯 Objetivo
-
-Implementar un entorno de **OpenSearch** en local, cargar un dataset de ejemplo y construir un dashboard interactivo con búsqueda facetada para explorar los datos.
-
----
-
-## 🔧 Requisitos técnicos
-
-- **Sistema operativo:** Linux Ubuntu  
-- **Herramientas utilizadas:** Docker y Docker Compose  
-- **Contenedores desplegados:**
-  - `opensearch`
-  - `opensearch-dashboards`
-- **Dataset utilizado:** *Sample web logs* (dataset oficial de OpenSearch Dashboards)
-
----
-
 ## 🧱 1️⃣ Instalación local con Docker Compose
 
 En esta sección se explica cómo instalar Docker, configurar el entorno y levantar los servicios de OpenSearch y OpenSearch Dashboards.
@@ -32,7 +15,6 @@ En esta sección se explica cómo instalar Docker, configurar el entorno y levan
 
 ### 🔹 Paso 1. Instalar Docker y Docker Compose
 
-Ejecutar los siguientes comandos para preparar el entorno e instalar Docker desde su repositorio oficial:
 
 ```bash
 sudo apt update
@@ -46,13 +28,13 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+```
 Verificar instalación:
 
-bash
-Copiar código
+```bash
 docker --version
 docker compose version
-Esto confirmará que Docker y Docker Compose están instalados correctamente.
+``
 
 🔹 Paso 2. Crear carpeta del proyecto
 Creamos una carpeta para contener los archivos del laboratorio:
@@ -223,8 +205,3 @@ Agregar los siguientes controles:
 Options list: campo geo.src → “País”
 
 Options list: campo machine.os.keyword → “Sistema Operativo”
-
-Range slider: campo bytes → “Tamaño de Bytes”
-
-Guardar.
-Ahora es posible filtrar y combinar facetas (por país, sistema operativo y rango de bytes) para ver los datos actualizados dinámicamente.
